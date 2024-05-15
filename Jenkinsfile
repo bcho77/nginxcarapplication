@@ -15,15 +15,7 @@ pipeline
     }
     stages
     { 
-        
-         stage('cleanup Workspace')
-        {
-            steps
-            {
-               cleanWS()
-            }
-        }
-        
+            
          stage('chekout from scm')
         {
             steps
