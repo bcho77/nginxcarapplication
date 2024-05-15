@@ -29,7 +29,7 @@ pipeline
             steps
             {
                 git branch: 'main', credentialsId: 'GITHUB_CREDENT', 
-                url: 'https://github.com/bcho77/nginxcarapplication.git'
+                url: 'https://github.com/bcho77/nginxcarapplication'
             }
         }
          stage('Build and push')
