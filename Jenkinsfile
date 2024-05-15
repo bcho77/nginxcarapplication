@@ -10,7 +10,7 @@ pipeline
         APP_NAME = "carvilla"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKER_USERNAME}" + "/" + "${APP_NAME}"
-        DOCKER_PASS = credentials('DOCKER_CREDENT') 
+        DOCKER_PASS = 'DOCKER_CREDENT' 
         
     }
     stages
