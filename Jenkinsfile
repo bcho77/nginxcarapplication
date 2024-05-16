@@ -10,7 +10,7 @@ pipeline
         APP_NAME = "carvilla"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKER_USERNAME}" + "/" + "${APP_NAME}"
-        DOCKER_PASS = 'DOCKER_CREDENT' 
+        DOCKER_PASS = 'DockerCredential' 
         
     }
     stages
@@ -28,7 +28,7 @@ pipeline
         {
            steps{
             script {
-            withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENT', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'PASSWORD')]) {
+            withCredentials([usernamePassword(credentialsId: 'DockerCredential', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'PASSWORD')]) {
                 docker.withRegistry('', "${DOCKER_USERNAME}:${PASSWORD}") {
                     docker.build("${IMAGE_NAME}")
                     docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
