@@ -26,21 +26,19 @@ pipeline
         }
          stage('Build ')
         {
-
-            steps
-            {
-                script{
-                    docker.withRegistry('vaninoel/nginxcarapplication',DOCKER_PASS){
-                        docker.build("${IMAGE_NAME}")
-                    }
-                    docker.withRegistry('vaninoel/nginxcarapplication',DOCKER_PASS){
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
-                    }
-
+           steps{
+            script {
+            withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENT', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'PASSWORD')]) {
+                docker.withRegistry('', "${DOCKER_USERNAME}:${PASSWORD}") {
+                    docker.build("${IMAGE_NAME}")
+                    docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
+                    docker.image("${IMAGE_NAME}").push('latest')
                 }
+            }
+
+          
             }
         }
         
-    }
+             }   }
 }
