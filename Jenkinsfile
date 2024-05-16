@@ -5,7 +5,7 @@ pipeline
     }
     environment{
         DOCKER_USERNAME = "vaninoel"
-       // BUILD_NUMBER = "${env.BUILD_NUMBER}"
+        BUILD_NUMBER = "${env.BUILD_NUMBER}"
         RELEASE = "1.0.0"
         APP_NAME = "carvilla"
         IMAGE_TAG = "${BUILD_NUMBER}"
@@ -30,10 +30,10 @@ pipeline
             steps
             {
                 script{
-                    docker.withRegistry('',DOCKER_PASS){
-                        docker.build"${IMAGE_NAME}"
+                    docker.withRegistry('vaninoel/nginxcarapplication',DOCKER_PASS){
+                        docker.build("${IMAGE_NAME}")
                     }
-                    docker.withRegistry('',DOCKER_PASS){
+                    docker.withRegistry('vaninoel/nginxcarapplication',DOCKER_PASS){
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
                     }
