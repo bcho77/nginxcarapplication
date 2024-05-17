@@ -1,0 +1,29 @@
+agent any
+    environment {
+        DOCKER_CRED = credentials('DOCKER_CREDENT')
+        APP_NAME = 'your_app_name'  // Replace with your application name
+        IMAGE_NAME = 'your_image_name'  // Replace with your image name
+    }
+    stages {
+        stage('Build docker image') {
+            steps {
+                sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
+                sh 'docker tag $APP_NAME:$BUILD_NUMBER $IMAGE_NAME:latest'
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                script {
+                    docker.withRegistry('', 'DOCKER_CREDENT') {
+                        echo 'Logged into Docker registry'
+                    }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                sh 'docker push $IMAGE_NAME:latest'
+            }
+        }
+    }
+}

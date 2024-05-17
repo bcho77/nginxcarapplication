@@ -1,8 +1,7 @@
 pipeline
 {
-    agent {
-        label 'maven'
-    }
+    agent any
+
     environment{
         DOCKER_USERNAME = "vaninoel"
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
@@ -21,24 +20,26 @@ pipeline
             steps
             {
                 git branch: 'main', credentialsId: 'GITHUB_CREDENT', 
-                url: 'https://github.com/bcho77/nginxcarapplication'
+                url: 'https://github.com/bcho77/nginxcarapplication.git'
             }
         }
-         stage('Build ')
-        {
-           steps{
-            script {
-            withCredentials([usernamePassword(credentialsId: 'DockerCredential', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'PASSWORD')]) {
-                docker.withRegistry('', "${DOCKER_USERNAME}:${PASSWORD}") {
-                    docker.build("${IMAGE_NAME}")
-                    docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
-                    docker.image("${IMAGE_NAME}").push('latest')
-                }
+        stage('Build docker image'){
+            steps{
+                sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
+                sh 'docker tag $APP_NAME $IMAGE_NAME:latest'
+                
+                withCredentials([string(credentialsId: 'DOCKER_CREDENT', variable: 'dockerhub')]) {
+                sh 'docker login -u vaninoel -p $dockerhub'
             }
-
-          
+            }
+            
+        }
+        stage('push'){
+            steps{
+                sh 'docker push $IMAGE_NAME:latest'
             }
         }
+       
+    }
         
-             }   }
-}
+}   
