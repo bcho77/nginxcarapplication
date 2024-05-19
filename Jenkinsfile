@@ -19,7 +19,7 @@ pipeline
         {
             steps
             {
-                git branch: 'main', credentialsId: 'GITHUB_CREDENT', 
+                git branch: 'main', 
                 url: 'https://github.com/bcho77/nginxcarapplication.git'
             }
         }
