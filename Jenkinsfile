@@ -29,8 +29,8 @@ pipeline
                 sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
                 sh 'docker tag $APP_NAME:$BUILD_NUMBER vaninoel/carvilla:$BUILD_NUMBER'
                 sh 'docker tag $APP_NAME:$BUILD_NUMBER vaninoel/carvilla:latest'             
-                withCredentials([string(credentialsId: 'DOCKER_CREDENT', variable: 'dockerhub')]) {
-                sh 'docker login -u vaninoel -p $dockerhub'
+                withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENT', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASS')]) {
+                sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASS'
             }
             }
             
