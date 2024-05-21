@@ -31,3 +31,6 @@ agent any
 withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENT', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASS')]) {
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASS}"
                 }
+
+           sh 'docker tag $APP_NAME:$BUILD_NUMBER vaninoel/carvilla:latest'
+           sh 'docker push vaninoel/carvilla:latest'

@@ -27,8 +27,8 @@ pipeline
         stage('Build docker image'){
             steps{
                 sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
-                sh 'docker tag $APP_NAME:$BUILD_NUMBER vaninoel/carvilla:$BUILD_NUMBER'
-                sh 'docker tag $APP_NAME:$BUILD_NUMBER vaninoel/carvilla:latest'             
+                sh 'docker tag $APP_NAME:$BUILD_NUMBER $IMAGE_NAME:$BUILD_NUMBER'
+                  
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENT', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASS')]) {
                 sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASS'
             }
@@ -37,8 +37,8 @@ pipeline
         }
         stage('push'){
             steps{
-                sh 'docker push vaninoel/carvilla:$BUILD_NUMBER'
-                sh 'docker push vaninoel/carvilla:latest'
+                sh 'docker push $IMAGE_NAME:$BUILD_NUMBER'
+                
             }
         }
        
