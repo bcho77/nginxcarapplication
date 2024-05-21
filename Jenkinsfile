@@ -44,7 +44,7 @@ pipeline
         stage('Trigger ManifestUpdate'){
             steps{
                 echo "triggering udpdatemanifestjob"
-                build job: 'cdcarwebb' , parameters: [string (name:BUILD_NUMBER, value: env.BUILD_NUMBER )]
+                build job: 'cdcarwebb' , parameters: [string (name:BUILD_TAG, value: env.BUILD_NUMBER )]
             }
         }
        
